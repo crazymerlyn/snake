@@ -4,6 +4,26 @@
 *.obj
 *.elf
 
+#autotools generated files
+*.in
+*.Po
+*.log
+config.h
+config.status
+config.log
+configure
+depcomp
+compile
+install-sh
+missing
+ar-lib
+aclocal.m4
+stamp-h1
+test-driver
+Makefile
+autom4te.cache
+snake
+
 # Precompiled Headers
 *.gch
 *.pch
