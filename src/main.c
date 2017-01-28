@@ -56,6 +56,7 @@ int main(void)
             mvaddch(field->foods[i].pos.y, field->foods[i].pos.x, ACS_DIAMOND);
         }
     }
+    free_field(field);
 
     timeout(0);
     getch();
