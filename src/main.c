@@ -17,6 +17,7 @@ int main(void)
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_CYAN, COLOR_BLACK);
+    init_pair(3, COLOR_RED, COLOR_BLACK);
 
 
     int maxx, maxy;
@@ -32,6 +33,7 @@ int main(void)
     
     int highscore = 20;
     int score = 2;
+    int score_attr = A_NORMAL;
 
     while (true) {
         int ch = getch();
@@ -60,6 +62,11 @@ int main(void)
 
         move_snake_on_field(field);
         score = length_snake(field->snake);
+        if (score > highscore) {
+            highscore = score;
+            score_attr = COLOR_PAIR(3) | A_BOLD;
+        }
+        
 
         if (field->snake_collided == COLLISION_FOOD) {
             add_food_random(field, FOOD_NORMAL);
@@ -69,8 +76,15 @@ int main(void)
         werase(score_window);
         werase(separator_window);
         werase(play_window);
-
-        wprintw(score_window, "Score: %5d\tHigh Score: %5d", score, highscore);
+        
+        wattrset(score_window, A_NORMAL);
+        wprintw(score_window, "Score: ");
+        wattrset(score_window, score_attr);
+        wprintw(score_window, "%5d", score);
+        wattrset(score_window, A_NORMAL);
+        wprintw(score_window, "\tHigh Score: ");
+        wattrset(score_window, score_attr);
+        wprintw(score_window, "%5d", highscore);
         
         for(int i = 0; i < maxx; ++i) {
             mvwaddch(separator_window, 0, i, '=');
