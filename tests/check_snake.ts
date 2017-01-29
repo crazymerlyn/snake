@@ -6,6 +6,14 @@
     ck_assert_int_eq(pos.y, 3);
 
 
+#test test_opposite_dir
+    ck_assert_int_eq(opposite_dir(RIGHT), LEFT);
+    ck_assert_int_eq(opposite_dir(LEFT), RIGHT);
+    ck_assert_int_eq(opposite_dir(DOWN), UP);
+    ck_assert_int_eq(opposite_dir(UP), DOWN);
+
+
+
 #test test_create_snake
     Snake* snake = create_snake();
     ck_assert_ptr_eq(snake->head , NULL);

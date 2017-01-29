@@ -53,6 +53,7 @@ typedef struct Field {
 
 
 Pos make_pos(int x, int y);
+Dir opposite_dir(Dir dir);
 Snake* create_snake();
 int length_snake(Snake* snake);
 void grow_snake(Snake* snake, Pos pos);

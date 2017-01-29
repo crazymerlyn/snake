@@ -11,6 +11,10 @@ Pos make_pos(int x, int y) {
     return pos;
 }
 
+Dir opposite_dir(Dir dir) {
+    return -dir;
+}
+
 void free_snake(Snake* snake) {
     while(snake->head != NULL) {
         PosList* temp = snake->head->next;
