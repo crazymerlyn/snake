@@ -23,6 +23,9 @@ test-driver
 Makefile
 autom4te.cache
 snake
+check_snake
+check_snake.c
+check_snake.trs
 
 # Precompiled Headers
 *.gch
