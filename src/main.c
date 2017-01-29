@@ -5,6 +5,7 @@
 int main(void)
 {
     initscr();
+    start_color();
     timeout(100);
     keypad(stdscr, TRUE);
     noecho();
@@ -13,6 +14,9 @@ int main(void)
     WINDOW* play_window = newwin(0, 0, 2, 0);
     WINDOW* score_window = newwin(1, 0, 0, 0);
     WINDOW* separator_window = newwin(1, 0, 1, 0);
+
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    init_pair(2, COLOR_CYAN, COLOR_BLACK);
 
 
     int maxx, maxy;
@@ -31,6 +35,7 @@ int main(void)
 
     while (true) {
         int ch = getch();
+        bool quit = false;
         switch(ch) {
             case KEY_UP:
                 change_snake_dir(field, UP);
@@ -44,9 +49,14 @@ int main(void)
             case KEY_RIGHT:
                 change_snake_dir(field, RIGHT);
                 break;
+            case 'q':
+            case 'Q':
+                quit = true;
+                break;
             default:
                 break;
         }
+        if (quit) break;
 
         move_snake_on_field(field);
         score = length_snake(field->snake);
@@ -67,12 +77,12 @@ int main(void)
         }
 
         for (PosList* it = field->snake->head; it != NULL; it = it->next) {
-            mvwaddch(play_window, it->y, it->x, '#');
+            mvwaddch(play_window, it->y, it->x, ACS_BLOCK | COLOR_PAIR(1));
         }
 
         for (int i = 0; i < field->n_foods; ++i) {
             mvwaddch(play_window, field->foods[i].pos.y, 
-                    field->foods[i].pos.x, ACS_DIAMOND);
+                    field->foods[i].pos.x, ACS_DIAMOND | COLOR_PAIR(2));
         }
 
         wrefresh(score_window);
