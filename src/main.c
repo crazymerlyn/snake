@@ -1,9 +1,15 @@
 #include "snake.h"
 
 #include <curses.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DEFAULT_HIGH_SCORE 20
+
 
 int main(void)
 {
+    const char* HIGH_SCORE_FILE = strcat(getenv("HOME"), "/.snake_highscore");
     initscr();
     start_color();
     timeout(100);
@@ -31,9 +37,18 @@ int main(void)
         add_food_random(field, FOOD_NORMAL);
     }
     
-    int highscore = 20;
+    int highscore;
     int score = 2;
     int score_attr = A_NORMAL;
+
+    FILE* hf = fopen(HIGH_SCORE_FILE, "r");
+
+    if (hf == NULL) highscore = DEFAULT_HIGH_SCORE;
+    else {
+        int err = fscanf(hf, "%d", &highscore);
+        if (err == EOF) highscore = DEFAULT_HIGH_SCORE;
+        fclose(hf);
+    }
 
     while (true) {
         int ch = getch();
@@ -113,5 +128,14 @@ int main(void)
 
     getch();
     endwin();
+
+    hf = fopen(HIGH_SCORE_FILE, "w");
+    if (hf != NULL) {
+        fprintf(hf, "%d", highscore);
+        fclose(hf);
+    } else {
+        printf("Error %s\n", HIGH_SCORE_FILE);
+    }
+
     return 0;
 }
